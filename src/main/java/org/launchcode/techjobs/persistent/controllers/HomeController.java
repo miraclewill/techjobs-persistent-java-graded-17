@@ -97,7 +97,7 @@ public class HomeController {
         if (optJob.isPresent()) {
             Job job= (Job) optJob.get();
             model.addAttribute("job", job);
-            return "job/view";
+            return "view";
         } else {
             return "redirect:../";
         }
