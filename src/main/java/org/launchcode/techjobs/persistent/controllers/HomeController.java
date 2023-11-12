@@ -59,32 +59,28 @@ public class HomeController {
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Job");
             return "add";
-        } else {
-            //if no errors, select the employer object that has been chosen
-            // to be affiliated with the new job
-
-            // check if employer exists in the database
-            Optional <Employer> selectedEmployerOpt = employerRepository.findById(employerId);
-
-            //checks if employer is present in the repository (intelliJ replaced null)
-            if (selectedEmployerOpt.isPresent()) {
-                Employer selectedEmployer = selectedEmployerOpt.get();
-                model.addAttribute("employers", selectedEmployer);
-
-                // if not null, takes it from optional & affiliate with new Job
-                newJob.setEmployer(selectedEmployer);
-
-                //save new job to Repository
-                jobRepository.save(newJob);
-
-                // get the skills data from a list of ids
-                if (skills != null) {
-                    List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
-                    newJob.setSkills(skillObjs);
-                }
-            }
         }
+        //if no errors, select the employer object that has been chosen
+        // to be affiliated with the new job
 
+        // check if employer exists in the database
+        Optional<Employer> selectedEmployerOpt = employerRepository.findById(employerId);
+
+        //checks if employer is present in the repository (intelliJ replaced null)
+        if (selectedEmployerOpt.isPresent()) {
+            Employer selectedEmployer = selectedEmployerOpt.get();
+            model.addAttribute("employers", selectedEmployer);
+
+            // if not null, takes it from optional & affiliate with new Job
+            newJob.setEmployer(selectedEmployer);
+
+            // get the skills data from a list of ids
+
+        }
+        List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
+        newJob.setSkills(skillObjs);
+        //save new job to Repository
+        jobRepository.save(newJob);
 
         return "redirect:";
     }
@@ -95,7 +91,7 @@ public class HomeController {
 
         Optional optJob = jobRepository.findById(jobId);
         if (optJob.isPresent()) {
-            Job job= (Job) optJob.get();
+            Job job = (Job) optJob.get();
             model.addAttribute("job", job);
             return "view";
         } else {
